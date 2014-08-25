@@ -1,0 +1,41 @@
+{
+    "appKeys": {},
+    "capabilities": [
+        ""
+    ],
+    "companyName": "remy@leftlogic.com",
+    "longName": "Rest",
+    "projectType": "native",
+    "resources": {
+        "media": [
+            {
+                "file": "images/new-icon.png",
+                "menuIcon": true,
+                "name": "IMAGE_LOG_NEW",
+                "type": "png"
+            },
+            {
+                "file": "images/rest-icon.png",
+                "name": "IMAGE_LOGO",
+                "type": "png"
+            },
+            {
+                "file": "images/restart-light.png",
+                "name": "IMAGE_RESTART",
+                "type": "png"
+            },
+            {
+                "file": "images/go-light.png",
+                "name": "IMAGE_GO",
+                "type": "png"
+            }
+        ]
+    },
+    "shortName": "Rest",
+    "uuid": "2aa4a9d5-9e9c-42d8-900e-94ed581ef0a8",
+    "versionCode": 1,
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": false
+    }
+}
