@@ -9,6 +9,11 @@
     "resources": {
         "media": [
             {
+                "file": "images/settings.png",
+                "name": "IMAGE_SETTINGS",
+                "type": "png"
+            },
+            {
                 "file": "images/new-icon.png",
                 "menuIcon": true,
                 "name": "IMAGE_LOG_NEW",

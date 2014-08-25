@@ -8,12 +8,8 @@ void click_config_provider(void *context);
 void tick_handler(struct tm *tick_time, TimeUnits units_changed);
 void start_counter(int seconds);
 
-typedef struct mytimer_struct {
-    int16_t min;
-    int16_t sec;
-	int16_t hour;
-} timer;
-
 char m_counter[]="000";
-static timer m_timer;
+char m_over[]="00:00";
+static int16_t m_timer;
+uint16_t m_timeout, m_elapsed;
 int m_in_menu = true;
