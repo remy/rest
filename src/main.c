@@ -145,9 +145,6 @@ void start_counter(int seconds) {
     // show counter
   layer_set_hidden(text_layer_get_layer(s_textlayer_count), false);
 
-  // this breif pause allows the user to see the "60" in case
-  // a tick is fired immediately.
-  psleep(500);
   tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
 }
 
