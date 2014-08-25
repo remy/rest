@@ -91,9 +91,13 @@ static void destroy_ui(void) {
 
 void tick_handler(struct tm *tick_time, TimeUnits units_changed){
   if (m_timeout != 0) {
-    m_elapsed = time_ms(NULL, NULL) - m_timeout;
+
+    time_t now = time(NULL) - m_timeout;
+    struct tm *t = localtime(&now);
+
+  //  m_elapsed = time_ms(NULL, NULL) - m_timeout;
 //    localtime(time_ms() - m_timeout);
-    strftime(m_over, sizeof(m_over), "%m:%S", localtime(&m_elapsed));
+    strftime(m_over, sizeof(m_over), "%m:%S", t);
 //    snprintf(m_counter, sizeof(m_over), "%d", m_timeout);
     text_layer_set_text(s_textlayer_over, m_over);
     return;  
