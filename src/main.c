@@ -152,15 +152,15 @@ void start_counter(int seconds) {
 }
 
 void handle_press_down(ClickRecognizerRef recognizer, void *context) {
-  start_counter(6);
+  start_counter(60);
 }
 
 void handle_press_select(ClickRecognizerRef recognizer, void *context) {
-  start_counter(9);
+  start_counter(90);
 }
 
 void handle_press_up(ClickRecognizerRef recognizer, void *context) {
-  start_counter(12);
+  start_counter(120);
 }
 
 void handle_press_back(ClickRecognizerRef recognizer, void *context) {
