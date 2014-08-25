@@ -149,15 +149,15 @@ void start_counter(int seconds) {
 }
 
 void handle_press_down(ClickRecognizerRef recognizer, void *context) {
-  start_counter(60);
+  start_counter(settings.down);
 }
 
 void handle_press_select(ClickRecognizerRef recognizer, void *context) {
-  start_counter(90);
+  start_counter(settings.select);
 }
 
 void handle_press_up(ClickRecognizerRef recognizer, void *context) {
-  start_counter(120);
+  start_counter(settings.up);
 }
 
 void handle_press_back(ClickRecognizerRef recognizer, void *context) {
@@ -196,23 +196,38 @@ static void handle_window_load(Window* window) {
   action_bar_layer_set_click_config_provider(s_actionbarlayer_main, click_config_provider);
   layer_set_hidden(text_layer_get_layer(s_textlayer_count), true);
   layer_set_hidden(text_layer_get_layer(s_textlayer_over), true);
+
+  snprintf(m_up, sizeof(m_up), "%d", settings.up);
+  snprintf(m_select, sizeof(m_select), "%d", settings.select);
+  snprintf(m_down, sizeof(m_down), "%d", settings.down);
+
+  text_layer_set_text(s_textlayer_120, m_up);
+  text_layer_set_text(s_textlayer_90, m_select);
+  text_layer_set_text(s_textlayer_60, m_down);
 }
 
-void hide_main(void) {
+void deinit(void) {
+  persist_write_data(SETTINGS_KEY, &settings, sizeof(settings));
   window_stack_remove(s_window, true);
 }
 
-void show_main(void) {
+void init(void) {
   initialise_ui();
   window_set_window_handlers(s_window, (WindowHandlers) {
     .load = handle_window_load,
     .unload = handle_window_unload,
   });
+
+  if (persist_exists(SETTINGS_KEY)) {
+    int persistvalue = persist_read_data(SETTINGS_KEY, &settings, sizeof(settings));
+    APP_LOG(APP_LOG_LEVEL_INFO, "Initialised. %d bytes", persistvalue);
+  }
+
   window_stack_push(s_window, true);
 }
 
 int main(void) {
-  show_main();
+  init();
   app_event_loop();
-  hide_main();
+  deinit();
 }
