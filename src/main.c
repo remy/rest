@@ -93,7 +93,7 @@ void tick_handler(struct tm *tick_time, TimeUnits units_changed){
   if (m_timeout != 0) {
     m_elapsed = time_ms(NULL, NULL) - m_timeout;
 //    localtime(time_ms() - m_timeout);
-    strftime(m_over, sizeof(m_over), "%m:%S", localtime(&m_ellapsed));
+    strftime(m_over, sizeof(m_over), "%m:%S", localtime(&m_elapsed));
 //    snprintf(m_counter, sizeof(m_over), "%d", m_timeout);
     text_layer_set_text(s_textlayer_over, m_over);
     return;  
