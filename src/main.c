@@ -18,7 +18,7 @@ static void initialise_ui(void) {
   s_window = window_create();
   window_set_background_color(s_window, GColorBlack);
   window_set_fullscreen(s_window, false);
-  
+
   s_res_image_go = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_GO);
   s_res_roboto_bold_subset_49 = fonts_get_system_font(FONT_KEY_ROBOTO_BOLD_SUBSET_49);
   s_res_bitham_34_medium_numbers = fonts_get_system_font(FONT_KEY_BITHAM_34_MEDIUM_NUMBERS);
@@ -31,7 +31,7 @@ static void initialise_ui(void) {
   action_bar_layer_set_icon(s_actionbarlayer_main, BUTTON_ID_SELECT, s_res_image_go);
   action_bar_layer_set_icon(s_actionbarlayer_main, BUTTON_ID_DOWN, s_res_image_go);
   layer_add_child(window_get_root_layer(s_window), (Layer *)s_actionbarlayer_main);
-  
+
   // s_textlayer_120
   s_textlayer_120 = text_layer_create(GRect(15, 4, 100, 42));
   text_layer_set_background_color(s_textlayer_120, GColorBlack);
@@ -40,7 +40,7 @@ static void initialise_ui(void) {
   text_layer_set_text_alignment(s_textlayer_120, GTextAlignmentRight);
   text_layer_set_font(s_textlayer_120, s_res_bitham_34_medium_numbers);
   layer_add_child(window_get_root_layer(s_window), (Layer *)s_textlayer_120);
-  
+
   // s_textlayer_60
   s_textlayer_60 = text_layer_create(GRect(15, 102, 100, 42));
   text_layer_set_background_color(s_textlayer_60, GColorBlack);
@@ -49,7 +49,7 @@ static void initialise_ui(void) {
   text_layer_set_text_alignment(s_textlayer_60, GTextAlignmentRight);
   text_layer_set_font(s_textlayer_60, s_res_bitham_34_medium_numbers);
   layer_add_child(window_get_root_layer(s_window), (Layer *)s_textlayer_60);
-  
+
   // s_textlayer_90
   s_textlayer_90 = text_layer_create(GRect(15, 54, 100, 34));
   text_layer_set_background_color(s_textlayer_90, GColorBlack);
@@ -58,7 +58,7 @@ static void initialise_ui(void) {
   text_layer_set_text_alignment(s_textlayer_90, GTextAlignmentRight);
   text_layer_set_font(s_textlayer_90, s_res_bitham_34_medium_numbers);
   layer_add_child(window_get_root_layer(s_window), (Layer *)s_textlayer_90);
-  
+
   // s_textlayer_count
   s_textlayer_count = text_layer_create(GRect(20, 36, 104, 60));
   text_layer_set_background_color(s_textlayer_count, GColorBlack);
@@ -67,7 +67,7 @@ static void initialise_ui(void) {
   text_layer_set_text_alignment(s_textlayer_count, GTextAlignmentCenter);
   text_layer_set_font(s_textlayer_count, s_res_roboto_bold_subset_49);
   layer_add_child(window_get_root_layer(s_window), (Layer *)s_textlayer_count);
-  
+
   // s_textlayer_over
   s_textlayer_over = text_layer_create(GRect(61, 91, 80, 28));
   text_layer_set_background_color(s_textlayer_over, GColorBlack);
@@ -91,29 +91,33 @@ static void destroy_ui(void) {
 
 void tick_handler(struct tm *tick_time, TimeUnits units_changed){
   if (m_timeout != 0) {
-
     time_t now = time(NULL) - m_timeout;
     struct tm *t = localtime(&now);
+    strftime(m_over, sizeof(m_over), "%M:%S", t);
 
-  //  m_elapsed = time_ms(NULL, NULL) - m_timeout;
-//    localtime(time_ms() - m_timeout);
-    strftime(m_over, sizeof(m_over), "%m:%S", t);
-//    snprintf(m_counter, sizeof(m_over), "%d", m_timeout);
+    // hack because I couldn't work out how to get single
+    // character minutes
+    if (m_over[0] == '0') {
+      for (int i = 0; i < 4; ++i) {
+        m_over[i] = m_over[i+1];
+      }
+      m_over[4] = '\0';
+    }
     text_layer_set_text(s_textlayer_over, m_over);
-    return;  
+    return;
   }
-  
+
   m_timer--;
-  
+
   if (m_timer == 0) {
     vibes_long_pulse();
     text_layer_set_text(s_textlayer_count, "0");
-    m_timeout = time_ms(NULL, NULL);
+    m_timeout = time(NULL);
     layer_set_hidden(text_layer_get_layer(s_textlayer_over), false);
     // tick_timer_service_unsubscribe();
     return;
   }
-  
+
   snprintf(m_counter, sizeof(m_counter), "%d", m_timer);
   text_layer_set_text(s_textlayer_count, m_counter);
 }
@@ -122,27 +126,28 @@ void start_counter(int seconds) {
   m_timer = seconds;
   m_timeout = 0;
   m_in_menu = false;
-  
-  vibes_short_pulse();
-  
+
   // set the initial state - before it's shown
   snprintf(m_counter, sizeof(m_counter), "%d", m_timer);
   text_layer_set_text(s_textlayer_count, m_counter);
-  
+
   snprintf(m_over, sizeof(m_over), "0:00");
   text_layer_set_text(s_textlayer_over, m_over);
-  
+
   // hide all others
   layer_set_hidden(text_layer_get_layer(s_textlayer_60), true);
   layer_set_hidden(text_layer_get_layer(s_textlayer_90), true);
   layer_set_hidden(text_layer_get_layer(s_textlayer_120), true);
   layer_set_hidden(action_bar_layer_get_layer(s_actionbarlayer_main), true);
-  
+
   layer_set_hidden(text_layer_get_layer(s_textlayer_over), true);
 
     // show counter
   layer_set_hidden(text_layer_get_layer(s_textlayer_count), false);
-  
+
+  // this breif pause allows the user to see the "60" in case
+  // a tick is fired immediately.
+  psleep(500);
   tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
 }
 
@@ -163,19 +168,17 @@ void handle_press_back(ClickRecognizerRef recognizer, void *context) {
     window_stack_pop(true);
   } else {
     tick_timer_service_unsubscribe();
-    
-    vibes_short_pulse();
-    
+
     // hide counter
     layer_set_hidden(text_layer_get_layer(s_textlayer_count), true);
     layer_set_hidden(text_layer_get_layer(s_textlayer_over), true);
-    
+
     // show all others
     layer_set_hidden(text_layer_get_layer(s_textlayer_60), false);
     layer_set_hidden(text_layer_get_layer(s_textlayer_90), false);
     layer_set_hidden(text_layer_get_layer(s_textlayer_120), false);
     layer_set_hidden(action_bar_layer_get_layer(s_actionbarlayer_main), false);
-  
+
     m_in_menu = true;
   }
 }
@@ -195,6 +198,7 @@ static void handle_window_load(Window* window) {
   // Set the click config provider:
   action_bar_layer_set_click_config_provider(s_actionbarlayer_main, click_config_provider);
   layer_set_hidden(text_layer_get_layer(s_textlayer_count), true);
+  layer_set_hidden(text_layer_get_layer(s_textlayer_over), true);
 }
 
 void hide_main(void) {
