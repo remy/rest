@@ -9,8 +9,18 @@
     "resources": {
         "media": [
             {
-                "file": "images/settings.png",
-                "name": "IMAGE_SETTINGS",
+                "file": "images/go-light.png",
+                "name": "IMAGE_GO",
+                "type": "png"
+            },
+            {
+                "file": "images/restart-light.png",
+                "name": "IMAGE_RESTART",
+                "type": "png"
+            },
+            {
+                "file": "images/rest-icon.png",
+                "name": "IMAGE_LOGO",
                 "type": "png"
             },
             {
@@ -20,18 +30,8 @@
                 "type": "png"
             },
             {
-                "file": "images/rest-icon.png",
-                "name": "IMAGE_LOGO",
-                "type": "png"
-            },
-            {
-                "file": "images/restart-light.png",
-                "name": "IMAGE_RESTART",
-                "type": "png"
-            },
-            {
-                "file": "images/go-light.png",
-                "name": "IMAGE_GO",
+                "file": "images/settings.png",
+                "name": "IMAGE_SETTINGS",
                 "type": "png"
             }
         ]
