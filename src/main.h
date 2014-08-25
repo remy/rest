@@ -11,5 +11,5 @@ void start_counter(int seconds);
 char m_counter[]="000";
 char m_over[]="00:00";
 static int16_t m_timer;
-uint16_t m_timeout, m_elapsed;
+time_t m_timeout, m_elapsed;
 int m_in_menu = true;
