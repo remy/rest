@@ -6,7 +6,8 @@
 #
 
 try:
-    from sh import CommandNotFound, jshint, cat, ErrorReturnCode_2
+    from sh import CommandNotFound, jshint, cat, rm, ErrorReturnCode_2
+    import os
     hint = jshint
 except (ImportError, CommandNotFound):
     hint = None
@@ -32,8 +33,10 @@ def build(ctx):
 
     # Concatenate all our JS files (but not recursively), and only if any JS exists in the first place.
     ctx.path.make_node('src/js/').mkdir()
-    js_paths = [node.abspath() for node in ctx.path.ant_glob("src/*.js")]
+    js_paths = [node.abspath() for node in ctx.path.ant_glob("js/*.js")]
     if js_paths:
+        if os.path.isfile('src/js/pebble-js-app.js'):
+            os.unlink('src/js/pebble-js-app.js')
         ctx.exec_command(['cat'] + js_paths, stdout=open('src/js/pebble-js-app.js', 'a'))
 
     ctx.load('pebble_sdk')

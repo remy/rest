@@ -199,6 +199,8 @@ void refresh_settings() {
 
   if (!settings.theme) {
     layer_set_hidden(inverter_layer_get_layer(s_inverterlayer_theme), true);
+  } else {
+    layer_set_hidden(inverter_layer_get_layer(s_inverterlayer_theme), false);
   }
 
   snprintf(m_up, sizeof(m_up), "%d", settings.up);

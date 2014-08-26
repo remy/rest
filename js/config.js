@@ -1,4 +1,5 @@
-var fetchedVersion = 0;
+'use strict';
+// var fetchedVersion = 0;
 /*
 function fetchVersion() {
   if (fetchedVersion === 0) {
@@ -38,15 +39,17 @@ Pebble.addEventListener('ready', function (e) {
 });
 */
 
+/*global Pebble*/
+
 var values = 0;
-var config_url = 'https://remy.github.io/rest/config.html';
+var url = 'https://remy.github.io/rest/config.html';
 var options = JSON.parse(localStorage.getItem('settings'));
 
-Pebble.addEventListener('showConfiguration', function(e) {
+Pebble.addEventListener('showConfiguration', function () {
   if (localStorage.getItem('settings') !== null) {
     options = JSON.parse(localStorage.settings);
   }
-  Pebble.openURL(config_url);
+  Pebble.openURL(url);
 });
 
 Pebble.addEventListener('webviewclosed', function (e) {
@@ -57,14 +60,15 @@ Pebble.addEventListener('webviewclosed', function (e) {
     values = JSON.parse(decodeURIComponent(e.response));
     console.log('stringified options: ' + JSON.stringify((values)));
 
-    for(var key in values) {
+    for(var key in values) { // jshint ignore:line
       localStorage.setItem(key, values[key]);
     }
 
     // Pebble.sendAppMessage(values);
-    Pebble.sendAppMessage(values, function (e) {
+    Pebble.sendAppMessage(values, function () {
       console.log('Successfully sent options to Pebble');
     }, function (e) {
       console.log('Failed to send options to Pebble.\nError: ' + e.error.message);
     });
+  }
 });
