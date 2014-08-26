@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Rest Settings</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css" />
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+  </head>
+  <body>
+    <div data-role="page" id="main">
+      <div data-role="header" class="jqm-header">
+        <h1>Rest settings</h1>
+      </div>
+
+      <div data-role="content">
+        <div data-role="fieldcontain">
+          <label for="up">Up button</label>
+          <input type="number" id="up" name="up" class="ui-input-text ui-body-c" pattern="[0-9]*" value="120">
+        </div>
+
+        <div data-role="fieldcontain">
+          <label for="select">Select button</label>
+          <input type="number" id="select" name="select" class="ui-input-text ui-body-c" pattern="[0-9]*" value="90">
+        </div>
+
+        <div data-role="fieldcontain">
+          <label for="down">Down button</label>
+          <input type="number" id="down" name="down" class="ui-input-text ui-body-c" pattern="[0-9]*" value="60">
+        </div>
+
+        <div data-role="fieldcontain">
+          <label for="theme">Dark theme</label>
+          <select name="theme" id="theme" data-role="slider">
+            <option value="1">Off</option>
+            <option selected value="0">On</option>
+          </select>
+        </div>
+
+        <div class="ui-body ui-body-b">
+          <fieldset class="ui-grid-a">
+              <div class="ui-block-a"><button type="submit" data-theme="d" id="b-cancel">Cancel</button></div>
+              <div class="ui-block-b"><button type="submit" data-theme="b" id="b-submit">Save</button></div>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      function saveOptions() {
+        return {
+          up: parseInt($('#up').val()),
+          down: parseInt($('#down').val()),
+          select: parseInt($('#select').val()),
+          theme: parseInt($('#theme').val()),
+        }
+      }
+
+      $().ready(function() {
+        $("#b-cancel").click(function() {
+          document.location = "pebblejs://close";
+        });
+
+        $("#b-submit").click(function() {
+          var location = "pebblejs://close#" + encodeURIComponent(JSON.stringify(saveOptions()));
+          console.log(location);
+          document.location = location;
+        });
+
+      });
+    </script>
+  </body>
+</html>

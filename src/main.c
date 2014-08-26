@@ -193,13 +193,7 @@ void click_config_provider(void *context) {
   window_single_click_subscribe(BUTTON_ID_SELECT, (ClickHandler) handle_press_select);
 }
 
-static void handle_window_unload(Window* window) {
-  destroy_ui();
-}
-
-static void handle_window_load(Window* window) {
-  // Set the click config provider:
-  action_bar_layer_set_click_config_provider(s_actionbarlayer_main, click_config_provider);
+void refresh_settings() {
   layer_set_hidden(text_layer_get_layer(s_textlayer_count), true);
   layer_set_hidden(text_layer_get_layer(s_textlayer_over), true);
 
@@ -216,6 +210,60 @@ static void handle_window_load(Window* window) {
   text_layer_set_text(s_textlayer_60, m_down);
 }
 
+void process_tuple(Tuple *t) {
+  int key = t->key;
+  int value = t->value->int32;
+
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "Loaded key num: %d with value %d", key, value);
+
+  switch (key) {
+    case UP_KEY:
+      settings.up = value;
+      break;
+    case SELECT_KEY:
+      settings.select = value;
+      break;
+    case DOWN_KEY:
+      settings.down = value;
+      break;
+    case THEME_KEY:
+      settings.theme = value;
+      break;
+  }
+
+  refresh_settings();
+}
+
+void in_received_handler(DictionaryIterator *iter, void *context) {
+
+  // Check for fields you expect to receive
+  // Tuple *text_tuple = dict_find(iter, UP_KEY);
+
+  // (void)context;
+
+  Tuple *t = dict_read_first(iter);
+  if (t) {
+    process_tuple(t);
+  }
+
+  while(t != NULL) {
+    t = dict_read_next(iter);
+    if(t) {
+      process_tuple(t);
+    }
+  }
+}
+
+static void handle_window_unload(Window* window) {
+  destroy_ui();
+}
+
+static void handle_window_load(Window* window) {
+  // Set the click config provider:
+  action_bar_layer_set_click_config_provider(s_actionbarlayer_main, click_config_provider);
+  refresh_settings();
+}
+
 void deinit(void) {
   persist_write_data(SETTINGS_KEY, &settings, sizeof(settings));
   window_stack_remove(s_window, true);
@@ -227,6 +275,9 @@ void init(void) {
     .load = handle_window_load,
     .unload = handle_window_unload,
   });
+
+  app_message_register_inbox_received(in_received_handler);
+  app_message_open(1028, 512);
 
   if (persist_exists(SETTINGS_KEY)) {
     int persistvalue = persist_read_data(SETTINGS_KEY, &settings, sizeof(settings));

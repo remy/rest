@@ -1,7 +1,12 @@
 {
-    "appKeys": {},
+    "appKeys": {
+        "up": 0,
+        "select": 1,
+        "down": 2,
+        "theme": 3
+    },
     "capabilities": [
-        ""
+        "configurable"
     ],
     "companyName": "remy@leftlogic.com",
     "longName": "Rest",

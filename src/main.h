@@ -1,5 +1,10 @@
 #define SETTINGS_KEY 0
 
+#define UP_KEY 0
+#define SELECT_KEY 1
+#define DOWN_KEY 2
+#define THEME_KEY 3
+
 void init(void);
 void deinit(void);
 void handle_press_up(ClickRecognizerRef recognizer, void *context);
