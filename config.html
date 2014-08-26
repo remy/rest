@@ -10,10 +10,6 @@
   </head>
   <body>
     <div data-role="page" id="main">
-      <div data-role="header" class="jqm-header">
-        <h1>Rest settings</h1>
-      </div>
-
       <div data-role="content">
         <div data-role="fieldcontain">
           <label for="up">Up button</label>
@@ -58,12 +54,23 @@
       }
 
       $().ready(function() {
+        // this is pretty dirty, but it works
+        var settings = JSON.parse(window.localStorage.settings || 'null');
+        if (settings !== null) {
+          $('#up').val(settings.up);
+          $('#select').val(settings.select);
+          $('#down').val(settings.down);
+          $('#theme').val(settings.theme);
+        }
+
         $("#b-cancel").click(function() {
           document.location = "pebblejs://close";
         });
 
         $("#b-submit").click(function() {
-          var location = "pebblejs://close#" + encodeURIComponent(JSON.stringify(saveOptions()));
+          var settings = JSON.stringify(saveOptions());
+          var location = "pebblejs://close#" + encodeURIComponent(settings);
+          localStorage.settings = settings;
           console.log(location);
           document.location = location;
         });
