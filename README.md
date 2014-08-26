@@ -16,6 +16,8 @@ Features:
 
 Currently only available to be installed in development mode - coming to the Pebble "store" soon.
 
+If you want to build it yourself, I highly recommend using [cloudpebble.net](https://cloudpebble.net).
+
 ## TODO
 
 - Configuration (on Pebble phone) to define: pre-set timers and theme
