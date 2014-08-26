@@ -20,12 +20,14 @@ typedef struct persist{
   uint8_t up;
   uint8_t select;
   uint8_t down;
+  bool theme;
 }__attribute__((__packed__)) persist;
 
 persist settings = {
   .up = 120,
   .select = 90,
   .down = 60,
+  .theme = 0
 };
 
 char m_up[]="000";
