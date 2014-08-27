@@ -41,15 +41,10 @@ Pebble.addEventListener('ready', function (e) {
 
 /*global Pebble*/
 
-var values = 0;
-var url = 'https://remy.github.io/rest/config.html';
-var options = JSON.parse(localStorage.getItem('settings'));
+var values = null;
 
 Pebble.addEventListener('showConfiguration', function () {
-  if (localStorage.getItem('settings') !== null) {
-    options = JSON.parse(localStorage.settings);
-  }
-  Pebble.openURL(url);
+  Pebble.openURL('http://remy.github.io/rest/config.html');
 });
 
 Pebble.addEventListener('webviewclosed', function (e) {
@@ -59,10 +54,6 @@ Pebble.addEventListener('webviewclosed', function (e) {
     console.log('User hit save');
     values = JSON.parse(decodeURIComponent(e.response));
     console.log('stringified options: ' + JSON.stringify((values)));
-
-    for(var key in values) { // jshint ignore:line
-      localStorage.setItem(key, values[key]);
-    }
 
     // Pebble.sendAppMessage(values);
     Pebble.sendAppMessage(values, function () {
