@@ -1,4 +1,5 @@
 #include <pebble.h>
+#include "persist.h"
 #include "main.h"
 
 // BEGIN AUTO-GENERATED UI CODE; DO NOT MODIFY
@@ -267,7 +268,7 @@ static void handle_window_load(Window* window) {
 }
 
 void deinit(void) {
-  persist_write_data(SETTINGS_KEY, &settings, sizeof(settings));
+  write_persist(settings);
   window_stack_remove(s_window, true);
 }
 
@@ -281,11 +282,8 @@ void init(void) {
   app_message_register_inbox_received(in_received_handler);
   app_message_open(1028, 512);
 
-  if (persist_exists(SETTINGS_KEY)) {
-    int persistvalue = persist_read_data(SETTINGS_KEY, &settings, sizeof(settings));
-    APP_LOG(APP_LOG_LEVEL_INFO, "Initialised. %d bytes", persistvalue);
-  }
-
+  APP_LOG(APP_LOG_LEVEL_INFO, "migrate_persist");
+  migrate_persist(settings);
   window_stack_push(s_window, true);
 }
 

@@ -1,5 +1,3 @@
-#define SETTINGS_KEY 0
-
 #define UP_KEY 0
 #define SELECT_KEY 1
 #define DOWN_KEY 2
@@ -21,12 +19,9 @@ static int16_t m_timer;
 time_t m_timeout, m_elapsed;
 int m_in_menu = true;
 
-typedef struct persist{
-  uint8_t up;
-  uint8_t select;
-  uint8_t down;
-  bool theme;
-}__attribute__((__packed__)) persist;
+char m_up[]="000";
+char m_select[]="000";
+char m_down[]="000";
 
 persist settings = {
   .up = 120,
@@ -34,7 +29,3 @@ persist settings = {
   .down = 60,
   .theme = 0
 };
-
-char m_up[]="000";
-char m_select[]="000";
-char m_down[]="000";

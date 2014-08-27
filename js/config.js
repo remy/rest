@@ -37,10 +37,12 @@ function fetchVersion() {
 /*global Pebble*/
 
 var values = null;
+var initialized = false;
 
 Pebble.addEventListener('ready', function (e) {
-  console.log('connect: ' + e.ready);
-  console.log(e.type);
+  // console.log('connect: ' + e.ready);
+  // console.log(e.type);
+  initialized = true;
 });
 
 Pebble.addEventListener('showConfiguration', function () {
