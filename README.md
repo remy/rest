@@ -10,7 +10,7 @@ Features:
 - Vibrate on timer done
 - When counting down, restarting is mapped to the same buttons, so no extra menus or display required (screen 2)
 - Once the timer is complete, an overrun counter starts so if you want a cheeky extra 30 seconds
-- Configurable timeers
+- Configurable timers
 - Animation free!
 
 ![Watch screens](https://raw.githubusercontent.com/remy/rest/master/screenshots/states.png)
