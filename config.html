@@ -71,7 +71,6 @@
           var settings = JSON.stringify(saveOptions());
           var location = "pebblejs://close#" + encodeURIComponent(settings);
           localStorage.settings = settings;
-          console.log(location);
           document.location = location;
         });
 
