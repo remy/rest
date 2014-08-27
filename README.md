@@ -2,7 +2,7 @@
 
 I built this app for my own use in the gym, for rest intervals.
 
-Currently there's only 3 options - but the code is written so that a configuration screen will be added to the Pebble phone app allowing you to control the rest interval pre-sets.
+There's three simple options and the app includes a configuration screen available from Pebble phone app allowing you to control the rest interval pre-sets.
 
 Features:
 
