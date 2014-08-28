@@ -239,11 +239,7 @@ void process_tuple(Tuple *t) {
 
 void in_received_handler(DictionaryIterator *iter, void *context) {
 
-  // Check for fields you expect to receive
-  // Tuple *text_tuple = dict_find(iter, UP_KEY);
-
-  // (void)context;
-
+  // TODO decide whether this code should be more defensive.
   Tuple *t = dict_read_first(iter);
   if (t) {
     process_tuple(t);
@@ -262,13 +258,12 @@ static void handle_window_unload(Window* window) {
 }
 
 static void handle_window_load(Window* window) {
-  // Set the click config provider:
   action_bar_layer_set_click_config_provider(s_actionbarlayer_main, click_config_provider);
   refresh_settings();
 }
 
 void deinit(void) {
-  write_persist(settings);
+  write_persist(&settings);
   window_stack_remove(s_window, true);
 }
 
@@ -282,8 +277,7 @@ void init(void) {
   app_message_register_inbox_received(in_received_handler);
   app_message_open(1028, 512);
 
-  APP_LOG(APP_LOG_LEVEL_INFO, "migrate_persist");
-  migrate_persist(settings);
+  migrate_persist(&settings);
   window_stack_push(s_window, true);
 }
 

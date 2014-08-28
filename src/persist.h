@@ -14,5 +14,5 @@ typedef struct persist{
   bool theme;
 }__attribute__((__packed__)) persist;
 
-void migrate_persist(persist settings);
-void write_persist(persist settings);
+void migrate_persist(persist* settings);
+void write_persist(persist* settings);
