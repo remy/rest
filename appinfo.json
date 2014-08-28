@@ -19,24 +19,9 @@
                 "type": "png"
             },
             {
-                "file": "images/restart-light.png",
-                "name": "IMAGE_RESTART",
-                "type": "png"
-            },
-            {
-                "file": "images/rest-icon.png",
-                "name": "IMAGE_LOGO",
-                "type": "png"
-            },
-            {
                 "file": "images/new-icon.png",
                 "menuIcon": true,
                 "name": "IMAGE_LOG_NEW",
-                "type": "png"
-            },
-            {
-                "file": "images/settings.png",
-                "name": "IMAGE_SETTINGS",
                 "type": "png"
             }
         ]
