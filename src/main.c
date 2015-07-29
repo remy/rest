@@ -8,23 +8,35 @@ static GBitmap *s_res_image_go;
 static GFont s_res_bitham_34_medium_numbers;
 static GFont s_res_roboto_bold_subset_49;
 static GFont s_res_roboto_condensed_21;
+static GFont s_res_gothic_14;
 static ActionBarLayer *s_actionbarlayer_main;
 static TextLayer *s_textlayer_120;
 static TextLayer *s_textlayer_60;
 static TextLayer *s_textlayer_90;
 static TextLayer *s_textlayer_count;
 static TextLayer *s_textlayer_over;
-static InverterLayer *s_inverterlayer_theme;
+
+#ifdef PBL_SDK_3
+static StatusBarLayer *s_status_bar;
+#endif
 
 static void initialise_ui(void) {
   s_window = window_create();
   window_set_background_color(s_window, GColorBlack);
-  window_set_fullscreen(s_window, false);
+  #ifndef PBL_SDK_3
+    window_set_fullscreen(s_window, false);
+  #else
+    // Set up the status bar last to ensure it is on top of other Layers
+    s_status_bar = status_bar_layer_create();
+    layer_add_child(window_get_root_layer(s_window), status_bar_layer_get_layer(s_status_bar));
+  #endif
 
   s_res_image_go = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_GO);
   s_res_bitham_34_medium_numbers = fonts_get_system_font(FONT_KEY_BITHAM_34_MEDIUM_NUMBERS);
   s_res_roboto_bold_subset_49 = fonts_get_system_font(FONT_KEY_ROBOTO_BOLD_SUBSET_49);
   s_res_roboto_condensed_21 = fonts_get_system_font(FONT_KEY_ROBOTO_CONDENSED_21);
+  s_res_gothic_14 = fonts_get_system_font(FONT_KEY_GOTHIC_14);
+
   // s_actionbarlayer_main
   s_actionbarlayer_main = action_bar_layer_create();
   action_bar_layer_add_to_window(s_actionbarlayer_main, s_window);
@@ -34,8 +46,8 @@ static void initialise_ui(void) {
   action_bar_layer_set_icon(s_actionbarlayer_main, BUTTON_ID_DOWN, s_res_image_go);
   layer_add_child(window_get_root_layer(s_window), (Layer *)s_actionbarlayer_main);
 
-  // s_textlayer_120
-  s_textlayer_120 = text_layer_create(GRect(15, 4, 100, 42));
+  // s_textlayer_120 (top one)
+  s_textlayer_120 = text_layer_create(GRect(0, 12, 134 - ACTION_BAR_WIDTH, 42));
   text_layer_set_background_color(s_textlayer_120, GColorBlack);
   text_layer_set_text_color(s_textlayer_120, GColorWhite);
   text_layer_set_text(s_textlayer_120, "120");
@@ -43,17 +55,8 @@ static void initialise_ui(void) {
   text_layer_set_font(s_textlayer_120, s_res_bitham_34_medium_numbers);
   layer_add_child(window_get_root_layer(s_window), (Layer *)s_textlayer_120);
 
-  // s_textlayer_60
-  s_textlayer_60 = text_layer_create(GRect(15, 102, 100, 42));
-  text_layer_set_background_color(s_textlayer_60, GColorBlack);
-  text_layer_set_text_color(s_textlayer_60, GColorWhite);
-  text_layer_set_text(s_textlayer_60, "60");
-  text_layer_set_text_alignment(s_textlayer_60, GTextAlignmentRight);
-  text_layer_set_font(s_textlayer_60, s_res_bitham_34_medium_numbers);
-  layer_add_child(window_get_root_layer(s_window), (Layer *)s_textlayer_60);
-
-  // s_textlayer_90
-  s_textlayer_90 = text_layer_create(GRect(15, 54, 100, 34));
+  // s_textlayer_90 (middle)
+  s_textlayer_90 = text_layer_create(GRect(0, 60, 134 - ACTION_BAR_WIDTH, 34));
   text_layer_set_background_color(s_textlayer_90, GColorBlack);
   text_layer_set_text_color(s_textlayer_90, GColorWhite);
   text_layer_set_text(s_textlayer_90, "90");
@@ -61,9 +64,18 @@ static void initialise_ui(void) {
   text_layer_set_font(s_textlayer_90, s_res_bitham_34_medium_numbers);
   layer_add_child(window_get_root_layer(s_window), (Layer *)s_textlayer_90);
 
+  // s_textlayer_60 (bottom)
+  s_textlayer_60 = text_layer_create(GRect(0, 112, 134 - ACTION_BAR_WIDTH, 42));
+  text_layer_set_background_color(s_textlayer_60, GColorBlack);
+  text_layer_set_text_color(s_textlayer_60, GColorWhite);
+  text_layer_set_text(s_textlayer_60, "60");
+  text_layer_set_text_alignment(s_textlayer_60, GTextAlignmentRight);
+  text_layer_set_font(s_textlayer_60, s_res_bitham_34_medium_numbers);
+  layer_add_child(window_get_root_layer(s_window), (Layer *)s_textlayer_60);
+
   // s_textlayer_count
   s_textlayer_count = text_layer_create(GRect(20, 36, 104, 60));
-  text_layer_set_background_color(s_textlayer_count, GColorBlack);
+  text_layer_set_background_color(s_textlayer_count, GColorClear);
   text_layer_set_text_color(s_textlayer_count, GColorWhite);
   text_layer_set_text(s_textlayer_count, "0");
   text_layer_set_text_alignment(s_textlayer_count, GTextAlignmentCenter);
@@ -71,16 +83,12 @@ static void initialise_ui(void) {
   layer_add_child(window_get_root_layer(s_window), (Layer *)s_textlayer_count);
 
   // s_textlayer_over
-  s_textlayer_over = text_layer_create(GRect(61, 91, 80, 28));
-  text_layer_set_background_color(s_textlayer_over, GColorBlack);
+  s_textlayer_over = text_layer_create(GRect(60, 91, 80, 47));
+  text_layer_set_background_color(s_textlayer_over, GColorClear);
   text_layer_set_text_color(s_textlayer_over, GColorWhite);
   text_layer_set_text(s_textlayer_over, "0:00");
   text_layer_set_font(s_textlayer_over, s_res_roboto_condensed_21);
   layer_add_child(window_get_root_layer(s_window), (Layer *)s_textlayer_over);
-
-  // s_inverterlayer_theme
-  s_inverterlayer_theme = inverter_layer_create(GRect(0, 0, 144, 152));
-  layer_add_child(window_get_root_layer(s_window), (Layer *)s_inverterlayer_theme);
 }
 
 static void destroy_ui(void) {
@@ -91,13 +99,13 @@ static void destroy_ui(void) {
   text_layer_destroy(s_textlayer_90);
   text_layer_destroy(s_textlayer_count);
   text_layer_destroy(s_textlayer_over);
-  inverter_layer_destroy(s_inverterlayer_theme);
   gbitmap_destroy(s_res_image_go);
 }
 // END AUTO-GENERATED UI CODE
 
 void tick_handler(struct tm *tick_time, TimeUnits units_changed){
   if (m_timeout != 0) {
+    // out of time
     time_t now = time(NULL) - m_timeout;
     struct tm *t = localtime(&now);
     strftime(m_over, sizeof(m_over), "%M:%S", t);
@@ -118,6 +126,12 @@ void tick_handler(struct tm *tick_time, TimeUnits units_changed){
 
   if (m_timer == 0) {
     vibes_long_pulse();
+    #ifdef PBL_PLATFORM_BASALT
+      window_set_background_color(s_window, GColorRed);
+      text_layer_set_text_color(s_textlayer_count, GColorWhite);
+      text_layer_set_text_color(s_textlayer_over, GColorWhite);
+      status_bar_layer_set_colors(s_status_bar, GColorRed, GColorWhite);
+    #endif
     text_layer_set_text(s_textlayer_count, "0");
     m_timeout = time(NULL);
     layer_set_hidden(text_layer_get_layer(s_textlayer_over), false);
@@ -152,6 +166,13 @@ void start_counter(int seconds) {
     // show counter
   layer_set_hidden(text_layer_get_layer(s_textlayer_count), false);
 
+
+  #ifdef PBL_PLATFORM_BASALT
+    window_set_background_color(s_window, GColorGreen);
+    text_layer_set_text_color(s_textlayer_count, GColorBlack);
+    status_bar_layer_set_colors(s_status_bar, GColorGreen, GColorBlack);
+  #endif
+
   tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
 }
 
@@ -183,6 +204,12 @@ void handle_press_back(ClickRecognizerRef recognizer, void *context) {
     layer_set_hidden(text_layer_get_layer(s_textlayer_120), false);
     layer_set_hidden(action_bar_layer_get_layer(s_actionbarlayer_main), false);
 
+    window_set_background_color(s_window, GColorBlack);
+
+    #ifdef PBL_PLATFORM_BASALT
+      status_bar_layer_set_colors(s_status_bar, GColorBlack, GColorWhite);
+    #endif
+
     m_in_menu = true;
   }
 }
@@ -199,9 +226,9 @@ void refresh_settings() {
   layer_set_hidden(text_layer_get_layer(s_textlayer_over), true);
 
   if (!settings.theme) {
-    layer_set_hidden(inverter_layer_get_layer(s_inverterlayer_theme), true);
+//    layer_set_hidden(inverter_layer_get_layer(s_inverterlayer_theme), true);
   } else {
-    layer_set_hidden(inverter_layer_get_layer(s_inverterlayer_theme), false);
+//    layer_set_hidden(inverter_layer_get_layer(s_inverterlayer_theme), false);
   }
 
   snprintf(m_up, sizeof(m_up), "%d", settings.up);
@@ -239,7 +266,11 @@ void process_tuple(Tuple *t) {
 
 void in_received_handler(DictionaryIterator *iter, void *context) {
 
-  // TODO decide whether this code should be more defensive.
+  // Check for fields you expect to receive
+  // Tuple *text_tuple = dict_find(iter, UP_KEY);
+
+  // (void)context;
+
   Tuple *t = dict_read_first(iter);
   if (t) {
     process_tuple(t);
@@ -258,6 +289,7 @@ static void handle_window_unload(Window* window) {
 }
 
 static void handle_window_load(Window* window) {
+  // Set the click config provider:
   action_bar_layer_set_click_config_provider(s_actionbarlayer_main, click_config_provider);
   refresh_settings();
 }
@@ -277,6 +309,7 @@ void init(void) {
   app_message_register_inbox_received(in_received_handler);
   app_message_open(1028, 512);
 
+  APP_LOG(APP_LOG_LEVEL_INFO, "migrate_persist");
   migrate_persist(&settings);
   window_stack_push(s_window, true);
 }

@@ -1,36 +1,41 @@
 {
-    "appKeys": {
-        "up": 0,
-        "select": 1,
-        "down": 2,
-        "theme": 3
-    },
-    "capabilities": [
-        "configurable"
-    ],
-    "companyName": "remy@leftlogic.com",
-    "longName": "Rest",
-    "projectType": "native",
-    "resources": {
-        "media": [
-            {
-                "file": "images/go-light.png",
-                "name": "IMAGE_GO",
-                "type": "png"
-            },
-            {
-                "file": "images/new-icon.png",
-                "menuIcon": true,
-                "name": "IMAGE_LOG_NEW",
-                "type": "png"
-            }
-        ]
-    },
-    "shortName": "Rest",
-    "uuid": "2aa4a9d5-9e9c-42d8-900e-94ed581ef0a8",
-    "versionCode": 1,
-    "versionLabel": "1.0",
-    "watchapp": {
-        "watchface": false
-    }
+  "appKeys": {
+    "up": 0,
+    "select": 1,
+    "down": 2,
+    "theme": 3
+  },
+  "capabilities": [
+    "configurable"
+  ],
+  "companyName": "remy@leftlogic.com",
+  "longName": "Rest",
+  "projectType": "native",
+  "resources": {
+    "media": [
+      {
+        "file": "images/go-light.png",
+        "name": "IMAGE_GO",
+        "type": "png"
+      },
+      {
+        "file": "images/new-icon.png",
+        "menuIcon": true,
+        "name": "IMAGE_LOG_NEW",
+        "type": "png"
+      }
+    ]
+  },
+  "shortName": "Rest",
+  "uuid": "2aa4a9d5-9e9c-42d8-900e-94ed581ef0a8",
+  "versionCode": 1,
+  "versionLabel": "1.0",
+  "watchapp": {
+    "watchface": false
+  },
+  "targetPlatforms": [
+    "aplite",
+    "basalt"
+  ],
+  "sdkVersion": "3"
 }

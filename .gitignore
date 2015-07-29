@@ -2,3 +2,4 @@
 build/*
 !build/rest.pbw
 src/js/
+wscript.backup
