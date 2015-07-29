@@ -20,6 +20,21 @@ static TextLayer *s_textlayer_over;
 static StatusBarLayer *s_status_bar;
 #endif
 
+#ifndef PBL_PLATFORM_BASALT
+#define STATUS_BAR_LAYER_HEIGHT 0
+#endif
+
+#ifdef PBL_PLATFORM_BASALT
+#define MENU_TOP 16
+#define MENU_MIDDLE 64
+#define MENU_BOTTOM 112
+#else
+#define MENU_TOP 6
+#define MENU_MIDDLE 54
+#define MENU_BOTTOM 102
+#endif
+
+
 static void initialise_ui(void) {
   s_window = window_create();
   window_set_background_color(s_window, GColorBlack);
@@ -47,7 +62,7 @@ static void initialise_ui(void) {
   layer_add_child(window_get_root_layer(s_window), (Layer *)s_actionbarlayer_main);
 
   // s_textlayer_120 (top one)
-  s_textlayer_120 = text_layer_create(GRect(0, 12, 134 - ACTION_BAR_WIDTH, 42));
+  s_textlayer_120 = text_layer_create(GRect(0, MENU_TOP, 134 - ACTION_BAR_WIDTH, 42));
   text_layer_set_background_color(s_textlayer_120, GColorBlack);
   text_layer_set_text_color(s_textlayer_120, GColorWhite);
   text_layer_set_text(s_textlayer_120, "120");
@@ -56,7 +71,7 @@ static void initialise_ui(void) {
   layer_add_child(window_get_root_layer(s_window), (Layer *)s_textlayer_120);
 
   // s_textlayer_90 (middle)
-  s_textlayer_90 = text_layer_create(GRect(0, 60, 134 - ACTION_BAR_WIDTH, 34));
+  s_textlayer_90 = text_layer_create(GRect(0, MENU_MIDDLE, 134 - ACTION_BAR_WIDTH, 34));
   text_layer_set_background_color(s_textlayer_90, GColorBlack);
   text_layer_set_text_color(s_textlayer_90, GColorWhite);
   text_layer_set_text(s_textlayer_90, "90");
@@ -65,7 +80,7 @@ static void initialise_ui(void) {
   layer_add_child(window_get_root_layer(s_window), (Layer *)s_textlayer_90);
 
   // s_textlayer_60 (bottom)
-  s_textlayer_60 = text_layer_create(GRect(0, 112, 134 - ACTION_BAR_WIDTH, 42));
+  s_textlayer_60 = text_layer_create(GRect(0, MENU_BOTTOM, 134 - ACTION_BAR_WIDTH, 42));
   text_layer_set_background_color(s_textlayer_60, GColorBlack);
   text_layer_set_text_color(s_textlayer_60, GColorWhite);
   text_layer_set_text(s_textlayer_60, "60");
@@ -74,7 +89,7 @@ static void initialise_ui(void) {
   layer_add_child(window_get_root_layer(s_window), (Layer *)s_textlayer_60);
 
   // s_textlayer_count
-  s_textlayer_count = text_layer_create(GRect(20, 36, 104, 60));
+  s_textlayer_count = text_layer_create(GRect(20, STATUS_BAR_LAYER_HEIGHT + 20, 104, 60));
   text_layer_set_background_color(s_textlayer_count, GColorClear);
   text_layer_set_text_color(s_textlayer_count, GColorWhite);
   text_layer_set_text(s_textlayer_count, "0");
@@ -83,7 +98,7 @@ static void initialise_ui(void) {
   layer_add_child(window_get_root_layer(s_window), (Layer *)s_textlayer_count);
 
   // s_textlayer_over
-  s_textlayer_over = text_layer_create(GRect(60, 91, 80, 47));
+  s_textlayer_over = text_layer_create(GRect(60, STATUS_BAR_LAYER_HEIGHT + 75, 80, 47));
   text_layer_set_background_color(s_textlayer_over, GColorClear);
   text_layer_set_text_color(s_textlayer_over, GColorWhite);
   text_layer_set_text(s_textlayer_over, "0:00");
