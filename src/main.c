@@ -8,7 +8,6 @@ static GBitmap *s_res_image_go;
 static GFont s_res_bitham_34_medium_numbers;
 static GFont s_res_roboto_bold_subset_49;
 static GFont s_res_roboto_condensed_21;
-static GFont s_res_gothic_14;
 static ActionBarLayer *s_actionbarlayer_main;
 static TextLayer *s_textlayer_120;
 static TextLayer *s_textlayer_60;
@@ -25,8 +24,8 @@ static StatusBarLayer *s_status_bar;
 #endif
 
 #ifdef PBL_PLATFORM_BASALT
-#define MENU_TOP 16
-#define MENU_MIDDLE 64
+#define MENU_TOP 12
+#define MENU_MIDDLE 62
 #define MENU_BOTTOM 112
 #else
 #define MENU_TOP 6
@@ -50,7 +49,6 @@ static void initialise_ui(void) {
   s_res_bitham_34_medium_numbers = fonts_get_system_font(FONT_KEY_BITHAM_34_MEDIUM_NUMBERS);
   s_res_roboto_bold_subset_49 = fonts_get_system_font(FONT_KEY_ROBOTO_BOLD_SUBSET_49);
   s_res_roboto_condensed_21 = fonts_get_system_font(FONT_KEY_ROBOTO_CONDENSED_21);
-  s_res_gothic_14 = fonts_get_system_font(FONT_KEY_GOTHIC_14);
 
   // s_actionbarlayer_main
   s_actionbarlayer_main = action_bar_layer_create();
@@ -142,10 +140,10 @@ void tick_handler(struct tm *tick_time, TimeUnits units_changed){
   if (m_timer == 0) {
     vibes_long_pulse();
     #ifdef PBL_PLATFORM_BASALT
-      window_set_background_color(s_window, GColorRed);
+      window_set_background_color(s_window, GColorDarkCandyAppleRed);
       text_layer_set_text_color(s_textlayer_count, GColorWhite);
       text_layer_set_text_color(s_textlayer_over, GColorWhite);
-      status_bar_layer_set_colors(s_status_bar, GColorRed, GColorWhite);
+      status_bar_layer_set_colors(s_status_bar, GColorDarkCandyAppleRed, GColorWhite);
     #endif
     text_layer_set_text(s_textlayer_count, "0");
     m_timeout = time(NULL);
@@ -183,9 +181,9 @@ void start_counter(int seconds) {
 
 
   #ifdef PBL_PLATFORM_BASALT
-    window_set_background_color(s_window, GColorGreen);
-    text_layer_set_text_color(s_textlayer_count, GColorBlack);
-    status_bar_layer_set_colors(s_status_bar, GColorGreen, GColorBlack);
+    window_set_background_color(s_window, GColorDarkGreen);
+    text_layer_set_text_color(s_textlayer_count, GColorWhite);
+    status_bar_layer_set_colors(s_status_bar, GColorDarkGreen, GColorWhite);
   #endif
 
   tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
