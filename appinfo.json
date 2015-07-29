@@ -28,8 +28,8 @@
   },
   "shortName": "Rest",
   "uuid": "2aa4a9d5-9e9c-42d8-900e-94ed581ef0a8",
-  "versionCode": 1,
-  "versionLabel": "1.0",
+  "versionCode": 2,
+  "versionLabel": "2.0",
   "watchapp": {
     "watchface": false
   },
