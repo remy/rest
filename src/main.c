@@ -105,7 +105,7 @@ static void initialise_ui(void) {
   layer_add_child(window_get_root_layer(s_window), (Layer *)s_textlayer_over);
 
    // s_textlayer_hr
-   s_textlayer_hr = text_layer_create(GRect(39, 118, 100, 25));
+   s_textlayer_hr = text_layer_create(GRect(39, PBL_DISPLAY_HEIGHT - 25, 100, 25));
    text_layer_set_background_color(s_textlayer_hr, GColorBlack);
    text_layer_set_text_color(s_textlayer_hr, GColorWhite);
    text_layer_set_text(s_textlayer_hr, "");
