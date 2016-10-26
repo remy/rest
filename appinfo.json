@@ -6,7 +6,8 @@
     "theme": 3
   },
   "capabilities": [
-    "configurable"
+    "configurable",
+    "health"
   ],
   "companyName": "remy@leftlogic.com",
   "longName": "Rest",
@@ -35,7 +36,9 @@
   },
   "targetPlatforms": [
     "aplite",
-    "basalt"
+    "basalt",
+    "diorite",
+    "emery"
   ],
   "sdkVersion": "3"
 }
