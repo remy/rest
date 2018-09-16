@@ -2,7 +2,7 @@
 
 Super simple Pebble app for rest intervals (like in the gym or pomodoro)
 
-Originally built by https://github.com/remy for use in the gym, for rest intervals.
+Originally built by [Remy](https://github.com/remy) for use in the gym, for rest intervals.
 
 There's three simple options and the app includes a configuration screen available from Pebble phone app allowing you to control the rest interval pre-sets.
 
@@ -18,14 +18,12 @@ Features:
 
 ![Watch screens](https://raw.githubusercontent.com/remy/rest/master/screenshots/states.png)
 
-Currently only available to be installed in development mode - coming to the Pebble "store" soon.
-
-If you want to build it yourself, get the SDK from Rebble http://developer.rebble.io
+If you want to build it yourself, get the SDK from Rebble <http://developer.rebble.io>
 
 Yes, you can also use this for [Pomodoro](http://en.wikipedia.org/wiki/Pomodoro_Technique)!
 
 -------------------------------
 
-View the Project on GitHub https://github.com/clach04/rest
+[View the Project on GitHub](https://github.com/clach04/rest)
 
-Installable PBW from https://github.com/clach04/rest/releases
+[Installable PBW](https://github.com/clach04/rest/releases)
