@@ -24,6 +24,8 @@ Yes, you can also use this for [Pomodoro](http://en.wikipedia.org/wiki/Pomodoro_
 
 -------------------------------
 
-[View the Project on GitHub](https://github.com/clach04/rest)
+[Home Page](https://clach04.github.io/pebble-rest-timer/)
 
-[Installable PBW](https://github.com/clach04/rest/releases)
+[View the Project on GitHub](https://github.com/clach04/pebble-rest-timer)
+
+[Installable PBW](https://github.com/clach04/pebble-rest-timer/releases)
